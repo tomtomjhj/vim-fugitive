@@ -5579,6 +5579,7 @@ function! s:DiffParseArgs(args, dir) abort
   let argv = copy(a:args)
   let commits = []
   let cached = 0
+  let merge_base = 0
   let name_only = 0
   let merge_base_against = {}
   let dash = (index(argv, '--') > i ? ['--'] : [])
@@ -5592,6 +5593,8 @@ function! s:DiffParseArgs(args, dir) abort
     let arg = argv[i]
     if arg ==# '--cached' || arg ==# '--staged'
       let cached = 1
+    elseif arg ==# '--merge-base'
+      let merge_base = 1
     elseif arg ==# '--name-only'
       let name_only = 1
       let argv[0] = '--name-status'
@@ -5633,6 +5636,24 @@ function! s:DiffParseArgs(args, dir) abort
     call add(commits, merge_base_against)
   endif
   let commits = filter(copy(commits), 'v:val.uninteresting') + filter(commits, '!v:val.uninteresting')
+  if merge_base
+    if cached && empty(commits)
+      call add(commits, {'prefix': '@:', 'module': '@:'})
+    endif
+    if len(commits)
+      let bases = map(copy(commits), 'substitute(v:val.prefix, ":$", "", "")')
+      let modules = map(copy(commits), 'substitute(get(v:val, "module", v:val.prefix), ":$", "", "")')
+      if len(bases) == 1
+        call add(bases, '@')
+        call add(modules, '@')
+      endif
+      let base = get(s:LinesError([a:dir, 'merge-base'] + bases)[0], 0, '')
+      if len(base)
+        let commits[0].prefix = base . ':'
+        let commits[0].module = join(modules, '...') . ':'
+      endif
+    endif
+  endif
   if cached
     if empty(commits)
       call add(commits, {'prefix': '@:', 'module': '@:'})

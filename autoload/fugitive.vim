@@ -8444,8 +8444,16 @@ function! fugitive#Foldtext() abort
         let binary = 1
       endif
     endfor
+    if add < 0
+      let add = 0
+    endif
+    if remove < 0
+      let remove = 0
+    endif
     if filename ==# ''
-      let filename = fugitive#Unquote(matchstr(line_foldstart, '^diff .\{-\} \zs"\=[abciow12]/\zs.*\ze "\=[abciow12]/'))[2:-1]
+      let [old_filename, new_filename] = s:ParseDiffHeader(line_foldstart)
+      let filename = new_filename ==# '/dev/null' ? old_filename : new_filename
+      let filename = substitute(filename, '^[abciow12]/', '', '')
     endif
     if filename ==# ''
       let filename = line_foldstart[5:-1]

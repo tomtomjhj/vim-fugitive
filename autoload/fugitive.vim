@@ -4192,7 +4192,7 @@ function! fugitive#Cd(path, ...) abort
   return (a:0 && a:1 ? 'lcd ' : 'cd ') . fnameescape(s:VimSlash(path))
 endfunction
 
-" Section: :Gstatus
+" Section: :Git status
 
 function! s:StatusCommand(line1, line2, range, count, bang, mods, reg, arg, args, ...) abort
   let dir = a:0 ? s:Dir(a:1) : s:Dir()
@@ -6294,13 +6294,8 @@ function! s:BlurStatus() abort
   endif
 endfunction
 
-let s:bang_edits = {'split': 'Git', 'vsplit': 'vertical Git', 'tabedit': 'tab Git', 'pedit': 'Git!'}
 function! fugitive#Open(cmd, bang, mods, arg, ...) abort
   exe s:VersionCheck()
-  if a:bang
-    return 'echoerr ' . string(':G' . a:cmd . '! for temp buffer output has been replaced by :' . get(s:bang_edits, a:cmd, 'Git') . ' --paginate')
-  endif
-
   try
     let [file, pre] = s:OpenParse(a:arg, 1, 0)
   catch /^fugitive:/
@@ -6735,9 +6730,6 @@ function! fugitive#Diffsplit(autodir, keepfocus, mods, arg, ...) abort
     elseif s:IsConflicted()
       let file = s:Relative(':1:')
       let mods = s:Mods(a:mods, 'leftabove')
-      if get(g:, 'fugitive_legacy_commands', 1)
-        let post = 'echohl WarningMsg|echo "Use :Gdiffsplit! for 3 way diff"|echohl NONE|' . post
-      endif
     else
       exe s:DirCheck()
       let file = s:Relative(':0:')

@@ -26,7 +26,7 @@ improvements:
 * Called with no arguments, `:Git` opens a summary window with dirty files and
   unpushed and unpulled commits.  Press `g?` to bring up a list of maps for
   numerous operations including diffing, staging, committing, rebasing, and
-  stashing.  (This is the successor to the old `:Gstatus`.)
+  stashing.
 * This command (along with all other commands) always uses the current
   buffer's repository, so you don't need to worry about the current working
   directory.

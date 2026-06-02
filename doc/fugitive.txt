@@ -700,36 +700,6 @@ API                                             *fugitive-api*
 
 Officially supported functions are documented inline in plugin/fugitive.vim.
 
-DEPRECATIONS                                    *fugitive-deprecated*
-
-The following commands are deprecated in favor of replacements that adhere to
-a new naming scheme.  Remember that |:Git| can be shortened to |:G|, so
-replacements using it are just one space character longer than the legacy
-version.
-
-*:Gremove*      Superseded by |:GRemove|.
-*:Gdelete*      Superseded by |:GDelete|.
-*:Gmove*        Superseded by |:GMove|.
-*:Grename*      Superseded by |:GRename|.
-*:Gbrowse*      Superseded by |:GBrowse|.
-*:Gdiff*        Superseded by |:Gdiffsplit|
-*:Gsdiff*       Superseded by |:Ghdiffsplit|
-*:Gvdiff*       Superseded by |:Gvdiffsplit| or |:vert| |:Gdiffsplit|.
-*:Gblame*       Superseded by |:Git_blame|.
-*:Gcommit*      Superseded by |:Git| commit.
-*:Gmerge*       Superseded by |:Git| merge and |:Git_mergetool|.
-*:Gpull*        Superseded by |:Git| pull.
-*:Grebase*      Superseded by |:Git| rebase.
-*:Grevert*      Superseded by |:Git| revert.
-*:Gpush*        Superseded by |:Git| push.
-*:Gfetch*       Superseded by |:Git| fetch.
-*:Glog*         Superseded by |:Gclog|.
-*:Gstatus*      Superseded by |:Git| (with no arguments).
-*:Gsplit!*      Superseded by |:Git_--paginate|.
-*:Gvsplit!*     Superseded by :vert Git --paginate.
-*:Gtabsplit!*   Superseded by :tab Git --paginate.
-*:Gpedit!*      Superseded by :Git! --paginate.
-
                                                 *User_Fugitive*
 Fugitive used to support `:autocmd User Fugitive` to run an autocommand after
 loading any buffer belonging to a Git repository, but this has been phased
